@@ -1,4 +1,4 @@
-import type { Session } from "@auth/core";
+import type { Session } from "@auth/core/types";
 import { type Component, Show } from "solid-js";
 
 export type UserProps = {

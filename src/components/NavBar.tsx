@@ -1,4 +1,4 @@
-import { type Session } from "@auth/core";
+import { type Session } from "@auth/core/types";
 import { type Component, Show, Suspense } from "solid-js";
 
 import { User } from "./User";

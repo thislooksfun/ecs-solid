@@ -23,7 +23,9 @@ node_modules
 *.tgz
 
 # Other unsupported types
+*.patch
 *.prisma
+*.sh
 *.txt
 
 # Misc files

@@ -6,7 +6,7 @@ import { serverEnvironment } from "~/server/env";
 
 import { prisma } from "./db/client";
 
-declare module "@auth/core" {
+declare module "@auth/core/types" {
   interface Session {
     user: {
       id: string;
@@ -47,6 +47,7 @@ export const authConfig: SolidAuthConfig = {
   // pages: {},
 
   providers: [
+    // @ts-expect-error -- types are borked atm
     GitHub({
       clientId: serverEnvironment.GITHUB_CLIENT_ID,
       clientSecret: serverEnvironment.GITHUB_CLIENT_SECRET,
