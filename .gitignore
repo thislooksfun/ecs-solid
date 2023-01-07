@@ -1,9 +1,6 @@
-dist
-.solid
-.output
-.vercel
-.netlify
-netlify
+/dist
+/.solid
+/.vercel
 
 # dependencies
 /node_modules
@@ -21,3 +18,4 @@ Thumbs.db
 
 # Environment definitions
 .env
+.env.*
