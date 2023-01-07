@@ -1,0 +1,22 @@
+diff --git a/node_modules/solid-start-vercel/index.js b/node_modules/solid-start-vercel/index.js
+index 2e54430..340913d 100644
+--- a/node_modules/solid-start-vercel/index.js
++++ b/node_modules/solid-start-vercel/index.js
+@@ -76,7 +76,7 @@ export default function ({ edge, prerender } = {}) {
+             entrypoint: renderEntrypoint
+           }
+         : {
+-            runtime: "nodejs16.x",
++            runtime: "nodejs18.x",
+             handler: renderEntrypoint,
+             launcherType: "Nodejs"
+           };
+@@ -140,7 +140,7 @@ export default function ({ edge, prerender } = {}) {
+               entrypoint: apiEntrypoint
+             }
+           : {
+-              runtime: "nodejs16.x",
++              runtime: "nodejs18.x",
+               handler: apiEntrypoint,
+               launcherType: "Nodejs"
+             };
