@@ -42,14 +42,12 @@ const environmentScheme = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
   SESSION_SECRET: z.string(),
-  SITE_URL: z.string(),
 
   // UPSTASH_REDIS_REST_URL: z.string(),
   // UPSTASH_REDIS_REST_TOKEN: z.string(),
   /* eslint-enable @typescript-eslint/naming-convention */
 });
 
-console.log(process.env);
 const environmentParseResult = environmentScheme.safeParse(process.env);
 // console.log(environmentParseResult);
 assertSuccessful(environmentParseResult);
