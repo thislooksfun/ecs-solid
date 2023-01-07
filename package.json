@@ -15,7 +15,7 @@
     "lint:fix:prettier": "prettier --write \"**/*\"",
     "prepare": "husky install",
     "postinstall": "patch-package && prisma generate",
-    "postbuild": "cp node_modules/@prisma/engines/*query* .vercel/output/functions/render.func/ && cp prisma/schema.prisma .vercel/output/functions/render.func/",
+    "postbuild": "cp node_modules/@prisma/engines/*query* .vercel/output/functions/render.func/ && cp prisma/schema.prisma .vercel/output/functions/render.func/ && ls -lA .vercel/output/functions/render.func",
     "start": "solid-start start",
     "typecheck": "tsc --noEmit"
   },
