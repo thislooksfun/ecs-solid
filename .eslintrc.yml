@@ -1,0 +1,148 @@
+root: true
+
+env:
+  node: true
+
+plugins:
+  - "@typescript-eslint"
+  - solid
+  - deprecation
+  - eslint-comments
+  - import
+  - prettier
+  - promise
+  - simple-import-sort
+  - sonarjs
+  - unicorn
+  - tailwindcss
+
+settings:
+  import/parsers:
+    "@typescript-eslint/parser": [".ts", ".tsx"]
+  import/resolver:
+    typescript: true
+  tailwindcss:
+    config: tailwind.config.cjs
+
+extends:
+  - eslint:recommended
+  - plugin:eslint-comments/recommended
+  - plugin:import/recommended
+  - plugin:sonarjs/recommended
+  - plugin:unicorn/recommended
+  - prettier
+
+reportUnusedDisableDirectives: true
+
+rules:
+  eslint-comments/no-unused-disable: off
+  tailwindcss/classnames-order: error
+  tailwindcss/enforces-negative-arbitrary-values: error
+  tailwindcss/enforces-shorthand: error
+  tailwindcss/migration-from-tailwind-2: error
+  tailwindcss/no-arbitrary-value: error
+  tailwindcss/no-contradicting-classname: error
+  tailwindcss/no-custom-classname: error
+  import/first: error
+  import/no-default-export: error
+  # TODO: Set this to error
+  no-console: warn
+  promise/prefer-await-to-callbacks: error
+  promise/prefer-await-to-then: error
+  simple-import-sort/exports: error
+  simple-import-sort/imports:
+    - error
+    - groups:
+        - ["\\u0000$"] # Types
+        - ["^\\u0000"] # Side-effects
+        - ["^@?\\w"] # Packages
+        - ["^"] # All other packages
+        - ["^\\."] # Relative imports
+  unicorn/filename-case:
+    - error
+    - case: kebabCase
+  # This is already covered by @typescript-eslint/no-this-alias.
+  unicorn/no-this-assignment: "off"
+  unicorn/prevent-abbreviations: "off"
+  unicorn/switch-case-braces: [error, avoid]
+
+overrides:
+  # Turn TypeScript linting on for TypeScript files.
+  - files: ["*.ts", "*.tsx"]
+    parser: "@typescript-eslint/parser"
+    parserOptions:
+      project:
+        - "./tsconfig.json"
+    extends:
+      - plugin:solid/typescript
+      - plugin:@typescript-eslint/recommended
+      - plugin:@typescript-eslint/recommended-requiring-type-checking
+      - plugin:import/typescript
+    rules:
+      deprecation/deprecation: error
+      "@typescript-eslint/consistent-type-exports": error
+      "@typescript-eslint/consistent-type-imports": error
+      "@typescript-eslint/naming-convention":
+        - error
+        - &defaultTypeNamingConvention
+          selector: [class, interface, typeAlias, typeParameter]
+          format: [StrictPascalCase]
+        - selector: default
+          format: [strictCamelCase]
+          leadingUnderscore: allow
+          filter: &restEndpointFilter
+            match: false
+            regex: ^(GET|PUT|POST|PATCH|DELETE)$
+      "@typescript-eslint/no-inferrable-types": "off"
+      "@typescript-eslint/no-non-null-assertion": "off"
+      "@typescript-eslint/require-await": "off"
+
+  # .tsx components are allowed to have PascalCase variables and file names.
+  - files: ["*.tsx"]
+    rules:
+      "@typescript-eslint/naming-convention":
+        - error
+        - *defaultTypeNamingConvention
+        - selector: default
+          format: [strictCamelCase, StrictPascalCase]
+          leadingUnderscore: allow
+          filter: *restEndpointFilter
+      unicorn/filename-case:
+        - error
+        - cases:
+            kebabCase: true
+            pascalCase: true
+
+  # Routes require a default export in order to work, so we have to allow it.
+  - files: ["src/routes/**/*.tsx", "src/entry-server.tsx", "src/root.tsx"]
+    rules:
+      import/no-default-export: off
+
+  # Restrict server env to only be used in server code.
+  - files: ["**/*"]
+    excludedFiles: ["src/server/**/*"]
+    rules:
+      no-restricted-imports:
+        - error
+        - paths:
+            - name: env/server
+              message: "Server environment can only be used in server code."
+
+  # CommonJS files must use var requires, so we allow it here.
+  - files: ["*.cjs"]
+    rules:
+      "@typescript-eslint/no-var-requires": "off"
+
+  # Configure jest linting in test files.
+  - files: ["**/__tests__/**/*.ts"]
+    plugins:
+      - jest
+    extends:
+      - plugin:jest/recommended
+    rules:
+      jest/expect-expect:
+        - "error"
+        - assertFunctionNames:
+            - expect
+            - n.done
+      sonarjs/no-duplicate-string: off
