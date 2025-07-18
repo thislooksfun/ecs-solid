@@ -1,5 +1,5 @@
 import { getSession as getSessionBase } from "@solid-auth/next";
-import { createServerData$, redirect } from "solid-start/server";
+import { redirect } from "solid-start/server";
 
 import { authConfig } from "~/server/auth";
 

@@ -3,11 +3,11 @@ import { Title, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 
 import { NavBar } from "~/components/NavBar";
-import { ensureSession } from "~/util/auth";
+import { getSession } from "~/util/auth";
 
 export const routeData = () => {
   return {
-    session: createServerData$((_, { request }) => ensureSession(request)),
+    session: createServerData$((_, { request }) => getSession(request)),
   };
 };
 
